@@ -39,7 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
         self.skView!.showsNodeCount = true
         
         // It's not a singleton for the moment
-        let BTManager : PongToothServerAPI = PongToothServerAPI()
+        let BTManager : PongToothServerAPI = PongToothServerAPI.sharedInstance
         print(BTManager)
     }
     
