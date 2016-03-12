@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import CoreBluetooth
+
+class PTBluetoothManager  {
+    // Bluetooth manager
+    var centralManager : CBCentralManager!
+    var handler : PTBluetoothHandler!
+    
+    init () {
+        self.handler = PTBBluetoothHandler()
+    }
+}
