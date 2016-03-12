@@ -13,6 +13,7 @@
 		0210E6AE1C94473400B44652 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6AD1C94473400B44652 /* Assets.xcassets */; };
 		0210E6B11C94473400B44652 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6AF1C94473400B44652 /* MainMenu.xib */; };
 		1A5043141C94500100CF4D3C /* PongtoothServerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5043131C94500100CF4D3C /* PongtoothServerAPI.swift */; };
+		1A5043181C9483A500CF4D3C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A5043171C9483A500CF4D3C /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		0210E6B01C94473400B44652 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0210E6B21C94473400B44652 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A5043131C94500100CF4D3C /* PongtoothServerAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PongtoothServerAPI.swift; sourceTree = "<group>"; };
+		1A5043171C9483A500CF4D3C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A5043181C9483A500CF4D3C /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +59,7 @@
 		0210E6A61C94473400B44652 /* PongToothServer */ = {
 			isa = PBXGroup;
 			children = (
+				1A5043191C9483B700CF4D3C /* Framework */,
 				0210E6A71C94473400B44652 /* AppDelegate.swift */,
 				1A5043131C94500100CF4D3C /* PongtoothServerAPI.swift */,
 				0210E6A91C94473400B44652 /* GameScene.swift */,
@@ -65,6 +69,14 @@
 				0210E6B21C94473400B44652 /* Info.plist */,
 			);
 			path = PongToothServer;
+			sourceTree = "<group>";
+		};
+		1A5043191C9483B700CF4D3C /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				1A5043171C9483A500CF4D3C /* CoreBluetooth.framework */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
