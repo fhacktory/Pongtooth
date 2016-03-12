@@ -29,6 +29,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             self.skView!.showsFPS = true
             self.skView!.showsNodeCount = true
+            
+            //It's not a singleton for the moment
+            PongToothServerAPI()
         }
     }
     
