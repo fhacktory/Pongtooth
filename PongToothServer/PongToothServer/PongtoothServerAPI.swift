@@ -9,11 +9,13 @@
 import Foundation
 import CoreBluetooth
 
-class PongToothServerAPI: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate {
     
-    var centralManager: CBCentralManager?
+    var peripheralManager: CBPeripheralManager?
     var discoveredPeripheral: [String: CBPeripheral]?
     var data: NSMutableData?
+    var customCharacteristic: CBMutableCharacteristic?
+    var customService: CBMutableService?
     
     struct PongToothServerAPIConstants{
         static let kServiceUUID : String = "312700E2-E798-4D5C-8DCF-49908332DF9F"
@@ -25,38 +27,54 @@ class PongToothServerAPI: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
     
     override init () {
         super.init()
-        self.centralManager = CBCentralManager.init(delegate:self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+        self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
         self.discoveredPeripheral = [String: CBPeripheral]()
         self.data = NSMutableData()
     }
     
-    func centralManagerDidUpdateState(central: CBCentralManager){
-        
-        switch central.state{
+    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
+        switch peripheral.state{
         case .PoweredOn:
             print("poweredOn")
-            let uuid : CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID as String)
-            
             // Scans for any peripheral
-            centralManager?.scanForPeripheralsWithServices([uuid], options: nil)
+            self.setupService()
         default:
-            print(central.state)
+            print(peripheral.state)
+        }
+    }
+    
+    func setupService()
+    {
+
+        // Creates the characteristic UUID
+        let characteristicUUID : CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kCharacteristicUUID as String)
+    
+        // Creates the characteristic
+        customCharacteristic = CBMutableCharacteristic.init(type: characteristicUUID, properties: CBCharacteristicProperties.Notify, value: nil, permissions: CBAttributePermissions.Readable)
+    
+        // Creates the service UUID
+        let serviceUUID: CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID)
+    
+        // Creates the service and adds the characteristic to it
+        self.customService = CBMutableService.init(type: serviceUUID, primary: true)
+        
+        // Sets the characteristics for this service
+        self.customService!.characteristics = [customCharacteristic!]
+    
+        // Publishes the service
+        self.peripheralManager?.addService(self.customService!)
+        print("addService")
+    }
+    
+    func peripheralManager(peripheral: CBPeripheralManager, didAddService service: CBService, error: NSError?) {
+        print("didAddService")
+        if error == nil {
+            let serviceUUID: CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID)
+            self.peripheralManager?.startAdvertising([CBAdvertisementDataLocalNameKey:"ICServer",
+                CBAdvertisementDataServiceUUIDsKey:[serviceUUID]])
         }
     }
    
-    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        self.centralManager?.connectPeripheral(peripheral, options: nil)
-    }
-    
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-
-        self.data?.length = 0
-        // Sets the peripheral delegate
-        peripheral.delegate = self
-        // Asks the peripheral to discover the service
-        let uuid : CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID as String)
-        peripheral.discoverServices([uuid])
-    }
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         if (error != nil)
@@ -71,6 +89,7 @@ class PongToothServerAPI: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
             }
         }
     }
+    
     
     func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
         
