@@ -59,12 +59,19 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
         {
         case .PoweredOn:
             print("central poweredOn")
-            centerManager!.scanForPeripheralsWithServices([CBUUID(string: PongToothServerAPIConstants.kServiceUUID)], options: nil)
+            centerManager?.scanForPeripheralsWithServices(nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey:NSNumber(bool: true)])
             break;
         default:
             print(central.state)
         }
 
+    }
+    
+    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
+//        [central stopScan];
+//        aCperipheral = aPeripheral;
+//        centra
+////        [central connectPeripheral:aCperipheral options:nil];
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
@@ -120,24 +127,38 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
         }
     }
     
-    func nextData()->NSData
+    func nextData() ->  NSData
     {
-        var aData:NSData;
+        var aData = NSData()
+        
         if  self.data?.length > 19
         {
             let dataRest: Int = (self.data?.length)! - 20
-            aData = NSData.init(base64EncodedData: (self.data?.subdataWithRange(NSRange.init(location: 0, length: 20)))!, options: [])!
-            range = NSRange.init(location: 20, length: dataRest)
-        } else {
-            let dataRest: Int = (self.data?.length)!
-            range = NSRange.init(location: 0, length: dataRest)
-            aData = NSData.init(base64EncodedData: (self.data?.subdataWithRange(range!))!, options: [])!
+            
+            if let data = self.data?.subdataWithRange(NSRange(location: 0, length: 20))
+            {
+                aData = NSData(base64EncodedData: data, options: [])!
+                range = NSRange(location: 20, length: dataRest)
+            }
+        }
+        else
+        {
+            if let dataRest: Int = self.data?.length
+            {
+                range = NSRange(location: 0, length: dataRest)
+                
+                if let data = self.data?.subdataWithRange(range!)
+                {
+                    aData = NSData.init(base64EncodedData: data, options: [])!
+                }
+            }
         }
         
         return aData
     }
     
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral)
+    {
         print("jme connecte tavu")
     }
     
