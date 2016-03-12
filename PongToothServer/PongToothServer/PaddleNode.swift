@@ -38,11 +38,10 @@ class PaddleNode: SKSpriteNode
     {
         name = "Paddle";
         self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
-        self.physicsBody?.categoryBitMask = NodeCategory.paddle.rawValue | NodeCategory.ball.rawValue
-        self.physicsBody?.collisionBitMask = NodeCategory.ball.rawValue | NodeCategory.paddle.rawValue
-        self.physicsBody?.contactTestBitMask = NodeCategory.ball.rawValue
+        self.physicsBody?.categoryBitMask = NodeCategory.paddle.rawValue
+        self.physicsBody?.contactTestBitMask = NodeCategory.all.rawValue
         self.physicsBody?.allowsRotation = false
-        self.physicsBody?.pinned = true
+        self.physicsBody?.pinned = false
         self.physicsBody?.linearDamping = 0.0
         self.physicsBody?.dynamic = false
         self.physicsBody?.friction = 0.0
