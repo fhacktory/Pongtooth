@@ -8,25 +8,34 @@
 
 import SpriteKit
 import CoreBluetooth
+import CoreMotion
 
-class GameScene: SKScene, CBCentralManagerDelegate, CBPeripheralDelegate {
+class GameScene: SKScene {
     
-    // IR Temp UUIDs
-    let IRTemperatureServiceUUID = CBUUID(string: "F000AA00-0451-4000-B000-000000000000")
-    let IRTemperatureDataUUID   = CBUUID(string: "F000AA01-0451-4000-B000-000000000000")
-    let IRTemperatureConfigUUID = CBUUID(string: "F000AA02-0451-4000-B000-000000000000")
+    let PADEL_WIDTH : CGFloat = 150
+    let PADEL_HEIGHT : CGFloat = 10
+    let PADEL_Y_FROM_BOTTOM : CGFloat = 150
     
-    // Bluetooth manager
-    var centralManager : CBCentralManager!
-    var sensorTagPeripheral : CBPeripheral!
+    var motionManager: CMMotionManager!
     
     // UI
+    var padel : SKSpriteNode!
     var statusLabel : UILabel!
     var ball = SKSpriteNode(imageNamed:"DuskBall")
     
     override func didMoveToView(view: SKView) {
         
-        centralManager = CBCentralManager(delegate: self, queue: nil)
+        motionManager = CMMotionManager()
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
+            data, error in
+            
+            let currentX = self.ball.position.x
+            let destX : CGFloat = currentX - CGFloat(data!.acceleration.y * 100)
+            
+            if (destX - self.PADEL_WIDTH / 2) >= 0 && (destX + self.PADEL_WIDTH / 2) <= self.size.width {
+                self.ball.position.x = destX
+            }
+        })
         
         // Set up status label
         statusLabel = UILabel()
@@ -35,73 +44,25 @@ class GameScene: SKScene, CBCentralManagerDelegate, CBPeripheralDelegate {
         statusLabel.font = UIFont(name: "HelveticaNeue-Light", size: 12)
         statusLabel.sizeToFit()
         statusLabel.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y, width: view.frame.width, height: self.statusLabel.bounds.height)
+        
+        padel = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(PADEL_WIDTH, PADEL_HEIGHT))
+        padel.position = CGPointMake(self.size.height / 2, PADEL_Y_FROM_BOTTOM)
+        
         view.addSubview(statusLabel)
         
         self.addChild(ball)
+        self.addChild(padel)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+        /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-        
-            ball.position = location
+            ball.position = touch.locationInNode(self)
         }
     }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-    }
-    
-    // Bluetooth
-    
-    
-    
-    // Discover services of the peripheral
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        self.statusLabel.text = "Discovering peripheral services"
-        peripheral.discoverServices(nil)
-    }
-    
-    // Check if the service discovered is a valid IR Temperature Service
-    func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
-        self.statusLabel.text = "Looking at peripheral services"
-        for service in peripheral.services! {
-            let thisService = service as CBService
-            if service.UUID == IRTemperatureServiceUUID {
-                // Discover characteristics of IR Temperature Service
-                peripheral.discoverCharacteristics(nil, forService: thisService)
-            }
-            // Uncomment to print list of UUIDs
-            //println(thisService.UUID)
-        }
-    }
-    
-    // Enable notification and sensor for each characteristic of valid service
-    func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
-        
-        // update status label
-        self.statusLabel.text = "Enabling sensors"
-        
-        // 0x01 data byte to enable sensor
-        var enableValue = 1
-        let enablyBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
-        
-        // check the uuid of each characteristic to find config and data characteristics
-        for charateristic in service.characteristics! {
-            let thisCharacteristic = charateristic as CBCharacteristic
-            // check for data characteristic
-            if thisCharacteristic.UUID == IRTemperatureDataUUID {
-                // Enable Sensor Notification
-                self.sensorTagPeripheral.setNotifyValue(true, forCharacteristic: thisCharacteristic)
-            }
-            // check for config characteristic
-            if thisCharacteristic.UUID == IRTemperatureConfigUUID {
-                // Enable Sensor
-                self.sensorTagPeripheral.writeValue(enablyBytes, forCharacteristic: thisCharacteristic, type: CBCharacteristicWriteType.WithResponse)
-            }
-        }
-        
     }
 }

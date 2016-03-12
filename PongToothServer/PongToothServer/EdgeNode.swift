@@ -37,6 +37,7 @@ class EdgeNode: SKSpriteNode
         name = "Edge";
         self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
         self.physicsBody?.categoryBitMask = NodeCategory.edge.rawValue
+        self.physicsBody?.collisionBitMask = NodeCategory.ball.rawValue
         self.physicsBody?.contactTestBitMask = NodeCategory.ball.rawValue
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.pinned = true

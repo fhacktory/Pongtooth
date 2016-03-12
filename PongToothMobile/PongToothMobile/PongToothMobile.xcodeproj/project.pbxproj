@@ -217,6 +217,7 @@
 				TargetAttributes = {
 					F3C0A92A1C94504400A08C01 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = QXUZT93L92;
 					};
 					F3C0A9421C94504400A08C01 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -427,10 +428,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PongToothMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fhacktory.PongToothMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -438,10 +442,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PongToothMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fhacktory.PongToothMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -514,6 +521,7 @@
 				F3C0A9591C94504500A08C01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F3C0A95A1C94504500A08C01 /* Build configuration list for PBXNativeTarget "PongToothMobileTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +530,7 @@
 				F3C0A95C1C94504500A08C01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F3C0A95D1C94504500A08C01 /* Build configuration list for PBXNativeTarget "PongToothMobileUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +539,7 @@
 				F3C0A95F1C94504500A08C01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

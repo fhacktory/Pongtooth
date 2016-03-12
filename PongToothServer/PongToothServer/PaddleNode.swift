@@ -1,5 +1,5 @@
 //
-//  BallNode.swift
+//  PaddleNode.swift
 //  PongToothServer
 //
 //  Created by Gabriel Bremond on 12/03/16.
@@ -9,11 +9,13 @@
 import Cocoa
 import SpriteKit
 
-class BallNode: SKSpriteNode
+class PaddleNode: SKSpriteNode
 {
+    weak var node: EdgeNode?
+    
     override init(texture: SKTexture?, color: NSColor, size: CGSize)
     {
-        super.init(texture: texture, color: SKColor.whiteColor(), size: texture!.size())
+        super.init(texture: texture, color: color, size: size)
         
         self.setUp()
     }
@@ -34,13 +36,15 @@ class BallNode: SKSpriteNode
     
     func setUp()
     {
-        name = "Ball";
-        self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
-        self.physicsBody?.categoryBitMask = NodeCategory.ball.rawValue
-        self.physicsBody?.contactTestBitMask = NodeCategory.edge.rawValue | NodeCategory.ball.rawValue | NodeCategory.paddle.rawValue
-        self.physicsBody?.allowsRotation = true
-        self.physicsBody?.restitution = 0.0
+        name = "Paddle";
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
+        self.physicsBody?.categoryBitMask = NodeCategory.paddle.rawValue | NodeCategory.ball.rawValue
+        self.physicsBody?.collisionBitMask = NodeCategory.ball.rawValue | NodeCategory.paddle.rawValue
+        self.physicsBody?.contactTestBitMask = NodeCategory.ball.rawValue
+        self.physicsBody?.allowsRotation = false
+        self.physicsBody?.pinned = true
         self.physicsBody?.linearDamping = 0.0
+        self.physicsBody?.dynamic = false
         self.physicsBody?.friction = 0.0
         self.physicsBody?.mass = 0.0
     }
