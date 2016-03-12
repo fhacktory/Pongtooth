@@ -98,11 +98,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addPaddle(bottomEdge)
 
         spriteBalls = []
-//        let spriteBall = BallNode(imageNamed:"ball")
-//        spriteBall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-//        spriteBall.setScale(0.1)
-//        self.addChild(spriteBall)
-//        spriteBalls.append(spriteBall)
         
         PongToothServerAPI.sharedInstance.addManager()
     }
