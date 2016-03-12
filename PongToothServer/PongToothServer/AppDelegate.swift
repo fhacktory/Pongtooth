@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
             //It's not a singleton for the moment
             let BTManager : PongToothServerAPI = PongToothServerAPI()
             print(BTManager)
-        }
+
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool
