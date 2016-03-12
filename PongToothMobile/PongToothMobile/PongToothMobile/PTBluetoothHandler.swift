@@ -26,7 +26,7 @@ class PTBluetoothHandler : NSObject, CBCentralManagerDelegate, CBPeripheralDeleg
         {
             case .PoweredOn :
                 print("great")
-                central.scanForPeripheralsWithServices([CBUUID(string: kServiceUUID)], options: nil)
+                central.scanForPeripheralsWithServices([CBUUID(string: kServiceUUID)], options: [ CBCentralManagerScanOptionAllowDuplicatesKey : NSNumber(bool: true) ])
                 break
             default :
                 print("fail")
@@ -43,8 +43,8 @@ class PTBluetoothHandler : NSObject, CBCentralManagerDelegate, CBPeripheralDeleg
             // Stop scanning
             print("connect")
             
-            self.peripheral = peripheral
             central.stopScan()
+            self.peripheral = peripheral
             central.connectPeripheral(self.peripheral!, options: nil)
         }
     }
@@ -52,7 +52,13 @@ class PTBluetoothHandler : NSObject, CBCentralManagerDelegate, CBPeripheralDeleg
     // Discover services of the peripheral
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         print("Discovering peripheral services")
-        self.peripheral!.discoverServices(nil)
+        print(self.peripheral?.state == CBPeripheralState.Connected)
+        self.peripheral?.delegate = self
+        self.peripheral?.discoverServices(nil)
+    }
+    
+    func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        print("error")
     }
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
@@ -62,13 +68,12 @@ class PTBluetoothHandler : NSObject, CBCentralManagerDelegate, CBPeripheralDeleg
         }
         else
         {
-            for service in peripheral.services!
+            for service in (self.peripheral?.services)!
             {
                 let thisService = service as CBService
-                if service.UUID == kServiceUUID
-                {
-                    peripheral.discoverCharacteristics(nil, forService: thisService)
-                }
+                
+                self.peripheral?.discoverCharacteristics(nil, forService: thisService)
+                
                 // Uncomment to print list of UUIDs
                 print(thisService.UUID)
             }
@@ -81,32 +86,37 @@ class PTBluetoothHandler : NSObject, CBCentralManagerDelegate, CBPeripheralDeleg
         
         // check the uuid of each characteristic to find config and data characteristics
         for charateristic in service.characteristics! {
+            print(charateristic.UUID)
+            
+            if (charateristic.UUID == CBUUID(string:"DA18")) {
+                print(charateristic.properties);
+                self.peripheral?.setNotifyValue(true, forCharacteristic: charateristic);
+            }
+
             let thisCharacteristic = charateristic as CBCharacteristic
             // check for data characteristic
-            if thisCharacteristic.UUID == kCharacteristicUUID {
+            //if thisCharacteristic.UUID == kCharacteristicUUID {
                 // Enable Sensor Notification
-                peripheral.setNotifyValue(true, forCharacteristic: thisCharacteristic)
-            }
+                self.peripheral?.setNotifyValue(true, forCharacteristic: thisCharacteristic)
+            
+            let dictionaryExample : [String:AnyObject] = ["ok":"ok"] // image should be either NSData or empty
+            let dataExample : NSData = NSKeyedArchiver.archivedDataWithRootObject(dictionaryExample)
+            
+                peripheral.writeValue(dataExample, forCharacteristic: thisCharacteristic, type: CBCharacteristicWriteType.WithoutResponse)
+            //}
         }
-        
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
         
         print("Connected")
         
-        if characteristic.UUID == kCharacteristicUUID {
-            
-            let dataBytes = characteristic.value
-            let dataLength = dataBytes!.length
-            var dataArray = [Int16](count: dataLength, repeatedValue: 0)
-            dataBytes!.getBytes(&dataArray, length: dataLength * sizeof(Int16))
-            
-            // Element 1 of the array will be ambient temperature raw value
-            let ambientTemperature = Double(dataArray[1])/128
-            
-            // Display on the temp label
-            print(NSString(format: "%.2f", ambientTemperature))
-        }
+        let dataBytes = characteristic.value
+        print(dataBytes)
+        print(NSString(data: dataBytes!, encoding: NSUTF8StringEncoding))
+    }
+    
+    func peripheral(peripheral: CBPeripheral, didWriteValueForCharacteristic characteristic: CBCharacteristic, error:NSError?) {
+        print("did write")
     }
 }
