@@ -26,15 +26,26 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
     
     static let sharedInstance = PongToothServerAPI()
     
-    override init () {
+    override init ()
+    {
         super.init()
-        self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
-        self.centerManager = CBCentralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+
+        debugPrint("init")
+
+//        self.centerManager = CBCentralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
         self.discoveredPeripheral = [String: CBPeripheral]()
         self.data = NSMutableData()
     }
     
-    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
+    func addManager()
+    {
+        self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+    }
+    
+    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager)
+    {
+        debugPrint("peripheralManagerDidUpdateState")
+        
         switch peripheral.state
         {
             case .PoweredOn:

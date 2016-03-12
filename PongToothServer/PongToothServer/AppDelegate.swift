@@ -37,12 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
         
         self.skView!.showsFPS = true
         self.skView!.showsNodeCount = true
-
-
-            //It's not a singleton for the moment
-            let BTManager : PongToothServerAPI = PongToothServerAPI()
-            print(BTManager)
-
+        
+        // It's not a singleton for the moment
+        let BTManager : PongToothServerAPI = PongToothServerAPI()
+        print(BTManager)
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool

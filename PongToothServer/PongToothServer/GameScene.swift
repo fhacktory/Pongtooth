@@ -85,6 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         spriteBall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         spriteBall.setScale(0.1)
         self.addChild(spriteBall)
+        
+        PongToothServerAPI.sharedInstance.addManager()
     }
     
     override func didChangeSize(oldSize: CGSize)
