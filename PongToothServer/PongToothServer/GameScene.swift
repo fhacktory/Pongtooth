@@ -17,19 +17,6 @@ enum NodeCategory: UInt32
     case ball   = 3
 }
 
-extension CGVector
-{
-    func speed() -> CGFloat
-    {
-        return sqrt(dx*dx+dy*dy)
-    }
-    
-    func angle() -> CGFloat
-    {
-        return atan2(dy, dx)
-    }
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
     var leftEdge:EdgeNode!
@@ -42,17 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var paddles: [PaddleNode]!
     var soundEffectAction:SKAction = SKAction.playSoundFileNamed("beep.wav", waitForCompletion: false)
     var soundEffectMiss:SKAction = SKAction.playSoundFileNamed("bop.wav", waitForCompletion: false)
-    
-    var moveUp:Bool = false
-    var moveDown:Bool = false
-
-    var bounceUp:Bool = false
-    var bounceLeft:Bool = false
-
-    var ballVelocityX:CGFloat=0
-    var ballVelocityY:CGFloat=0
-
-    var ballVelocityModifier:CGFloat=0
 
     override func didMoveToView(view: SKView)
     {
@@ -157,8 +133,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     override func mouseDown(theEvent: NSEvent)
     {
-        debugPrint("mouseDown")
-
         let position = theEvent.locationInNode(self)
 
         let spriteBall = BallNode(imageNamed:"ball")
@@ -207,8 +181,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         if (ballTouched && edgeTouched)
         {
-            debugPrint("edgeTouched")
-            
             let inVector = contact.bodyB.node!.physicsBody!.velocity
             let outVector = CGVectorMake(inVector.dx*0.5, inVector.dy*0.5)
             contact.bodyB.node!.physicsBody?.applyImpulse(outVector)
@@ -217,8 +189,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
         else if (ballTouched && paddleTouched)
         {
-            debugPrint("paddleTouched")
-            
             let inVector = contact.bodyB.node!.physicsBody!.velocity
             let outVector = CGVectorMake(inVector.dx*2, inVector.dy*2)
             contact.bodyB.node!.physicsBody?.applyImpulse(outVector)
