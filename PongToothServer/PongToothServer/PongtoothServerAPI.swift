@@ -17,6 +17,7 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
     var data: NSMutableData?
     var customCharacteristic: CBMutableCharacteristic?
     var customService: CBMutableService?
+    var range: NSRange?
     
     struct PongToothServerAPIConstants{
         static let kServiceUUID : String = "312700E2-E798-4D5C-8DCF-49908332DF9F"
@@ -29,23 +30,19 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
     override init ()
     {
         super.init()
-
-        debugPrint("init")
-
-//        self.centerManager = CBCentralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
         self.discoveredPeripheral = [String: CBPeripheral]()
         self.data = NSMutableData()
+
     }
     
     func addManager()
     {
         self.peripheralManager = CBPeripheralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+        self.centerManager = CBCentralManager.init(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
     }
     
     func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager)
     {
-        debugPrint("peripheralManagerDidUpdateState")
-        
         switch peripheral.state
         {
             case .PoweredOn:
@@ -56,6 +53,94 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
                 print(peripheral.state)
         }
     }
+    
+    func centralManagerDidUpdateState(central: CBCentralManager) {
+        switch central.state
+        {
+        case .PoweredOn:
+            print("central poweredOn")
+            centerManager!.scanForPeripheralsWithServices([CBUUID(string: PongToothServerAPIConstants.kServiceUUID)], options: nil)
+            break;
+        default:
+            print(central.state)
+        }
+
+    }
+    
+    func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
+        self.writeData(peripheral)
+    }
+    
+    func writeData(peripheral: CBPeripheralManager)
+    {
+        let infos: Dictionary = ["NAME" : "Khaos Tian","EMAIL":"khaos.tian@gmail.com"]
+
+        do {
+            if let aData: NSData = try NSJSONSerialization.dataWithJSONObject(infos, options: []) {
+                self.data?.appendData(aData)
+                
+                while self.hasData()
+                {
+                    if peripheral.updateValue(self.nextData(), forCharacteristic: customCharacteristic!, onSubscribedCentrals: nil) {
+                        self.readData()
+                    } else {
+                        return
+                    }
+                    let stra:String = "ENDAL"
+                    let dataa :NSData = NSData.init(base64EncodedString: stra, options: [])!
+                    peripheral.updateValue(dataa, forCharacteristic: customCharacteristic!, onSubscribedCentrals: nil)
+                }
+                
+            }
+        } catch let parseError {
+            print(parseError)                                                          // Log the error thrown by `JSONObjectWithData`
+        }
+    }
+    
+    func readData()
+    {
+        if  self.data?.length > 19 {
+            self.data?.subdataWithRange(range!)
+        } else {
+            self.data = nil;
+        }
+    }
+    
+
+    
+    func hasData()-> Bool
+    {
+        if self.data?.length > 0
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    
+    func nextData()->NSData
+    {
+        var aData:NSData;
+        if  self.data?.length > 19
+        {
+            let dataRest: Int = (self.data?.length)! - 20
+            aData = NSData.init(base64EncodedData: (self.data?.subdataWithRange(NSRange.init(location: 0, length: 20)))!, options: [])!
+            range = NSRange.init(location: 20, length: dataRest)
+        } else {
+            let dataRest: Int = (self.data?.length)!
+            range = NSRange.init(location: 0, length: dataRest)
+            aData = NSData.init(base64EncodedData: (self.data?.subdataWithRange(range!))!, options: [])!
+        }
+        
+        return aData
+    }
+    
+    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+        print("jme connecte tavu")
+    }
+    
     
     func setupService()
     {
@@ -84,42 +169,10 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
         print("didAddService")
         if error == nil {
             let serviceUUID: CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID)
-            self.peripheralManager?.startAdvertising([CBAdvertisementDataLocalNameKey:"ICServer",
+            self.peripheralManager?.startAdvertising([CBAdvertisementDataLocalNameKey:"com.fhacktory.pongtooth",
                 CBAdvertisementDataServiceUUIDsKey:[serviceUUID]])
         }
     }
     
-
-    /*Central Manager*/
-    func centralManagerDidUpdateState(central: CBCentralManager) {
-        switch central.state
-        {
-        case .PoweredOn:
-            print("central poweredOn")
-            central.scanForPeripheralsWithServices(nil, options:nil)
-            break
-        default:
-            print(central.state)
-        }
-    }
-    
-    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        
-        if Float(RSSI) >= -45
-        {
-            central.stopScan()
-            central.connectPeripheral(peripheral, options: nil)
-        }
-    }
-    
-    func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
-        print("Fail: %@", error)
-    }
-    
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        print("Connected: %@", peripheral)
-//        peripheral.delegate = self
-//        peripheral.discoverServices(nil)
-    }
     
 }
