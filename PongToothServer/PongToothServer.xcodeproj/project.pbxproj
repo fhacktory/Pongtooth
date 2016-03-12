@@ -9,19 +9,21 @@
 /* Begin PBXBuildFile section */
 		0210E6A81C94473400B44652 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6A71C94473400B44652 /* AppDelegate.swift */; };
 		0210E6AA1C94473400B44652 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6A91C94473400B44652 /* GameScene.swift */; };
-		0210E6AC1C94473400B44652 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6AB1C94473400B44652 /* GameScene.sks */; };
 		0210E6AE1C94473400B44652 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6AD1C94473400B44652 /* Assets.xcassets */; };
 		0210E6B11C94473400B44652 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6AF1C94473400B44652 /* MainMenu.xib */; };
+		0210E6B91C9452AC00B44652 /* BallNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6B81C9452AC00B44652 /* BallNode.swift */; };
+		0210E6BB1C946BD900B44652 /* EdgeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6BA1C946BD900B44652 /* EdgeNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0210E6A41C94473400B44652 /* PongToothServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PongToothServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0210E6A71C94473400B44652 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0210E6A91C94473400B44652 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		0210E6AB1C94473400B44652 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		0210E6AD1C94473400B44652 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0210E6B01C94473400B44652 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0210E6B21C94473400B44652 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0210E6B81C9452AC00B44652 /* BallNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallNode.swift; sourceTree = "<group>"; };
+		0210E6BA1C946BD900B44652 /* EdgeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +58,8 @@
 			children = (
 				0210E6A71C94473400B44652 /* AppDelegate.swift */,
 				0210E6A91C94473400B44652 /* GameScene.swift */,
-				0210E6AB1C94473400B44652 /* GameScene.sks */,
+				0210E6B81C9452AC00B44652 /* BallNode.swift */,
+				0210E6BA1C946BD900B44652 /* EdgeNode.swift */,
 				0210E6AD1C94473400B44652 /* Assets.xcassets */,
 				0210E6AF1C94473400B44652 /* MainMenu.xib */,
 				0210E6B21C94473400B44652 /* Info.plist */,
@@ -123,7 +126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0210E6AE1C94473400B44652 /* Assets.xcassets in Resources */,
-				0210E6AC1C94473400B44652 /* GameScene.sks in Resources */,
 				0210E6B11C94473400B44652 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0210E6BB1C946BD900B44652 /* EdgeNode.swift in Sources */,
+				0210E6B91C9452AC00B44652 /* BallNode.swift in Sources */,
 				0210E6AA1C94473400B44652 /* GameScene.swift in Sources */,
 				0210E6A81C94473400B44652 /* AppDelegate.swift in Sources */,
 			);
@@ -277,6 +281,7 @@
 				0210E6B71C94473400B44652 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
