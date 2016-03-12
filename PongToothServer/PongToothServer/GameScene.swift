@@ -10,9 +10,11 @@ import SpriteKit
 
 enum NodeCategory: UInt32
 {
-    case paddle = 0
-    case edge   = 1
-    case ball   = 2
+    case none   = 0
+    case all    = 0xffffffff
+    case paddle = 1
+    case edge   = 2
+    case ball   = 3
 }
 
 extension CGVector
@@ -35,7 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var topEdge:EdgeNode!
     var bottomEdge:EdgeNode!
     
-    var spriteBall:BallNode!
+    var spriteBalls: [BallNode]!
     
     var paddles: [PaddleNode]!
     var soundEffectAction:SKAction = SKAction.playSoundFileNamed("beep.wav", waitForCompletion: false)
@@ -95,10 +97,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         addPaddle(bottomEdge)
 
-        spriteBall = BallNode(imageNamed:"ball")
-        spriteBall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        spriteBall.setScale(0.1)
-        self.addChild(spriteBall)
+        spriteBalls = []
+//        let spriteBall = BallNode(imageNamed:"ball")
+//        spriteBall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+//        spriteBall.setScale(0.1)
+//        self.addChild(spriteBall)
+//        spriteBalls.append(spriteBall)
         
         PongToothServerAPI.sharedInstance.addManager()
     }
@@ -159,6 +163,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func mouseDown(theEvent: NSEvent)
     {
         debugPrint("mouseDown")
+
+        let position = theEvent.locationInNode(self)
+
+        let spriteBall = BallNode(imageNamed:"ball")
+        spriteBall.position = position
+        spriteBall.setScale(0.1)
+
+        self.addChild(spriteBall)
+        spriteBalls.append(spriteBall)
         
         spriteBall.physicsBody?.applyImpulse(CGVectorMake(1000, 800))
         spriteBall.physicsBody?.applyForce(CGVectorMake(100, 80))
@@ -183,14 +196,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
 
     override func update(currentTime: CFTimeInterval)
     {
-        let inVector = spriteBall.physicsBody!.velocity
-        let outVector = CGVectorMake(inVector.dx*0.5, inVector.dy*0.5)
-        spriteBall.physicsBody?.applyForce(outVector)
+        for ball in spriteBalls
+        {
+            let inVector = ball.physicsBody!.velocity
+            let outVector = CGVectorMake(inVector.dx*0.5, inVector.dy*0.5)
+            ball.physicsBody?.applyForce(outVector)
+        }
     }
     
     func didBeginContact(contact:SKPhysicsContact)
     {
-        let paddleTouched = contact.bodyA.categoryBitMask == NodeCategory.ball.rawValue
+        let paddleTouched = contact.bodyA.categoryBitMask == NodeCategory.paddle.rawValue
         let ballTouched = contact.bodyB.categoryBitMask == NodeCategory.ball.rawValue
         let edgeTouched = contact.bodyA.categoryBitMask == NodeCategory.edge.rawValue
         
@@ -198,43 +214,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             debugPrint("edgeTouched")
             
-            let inVector = spriteBall.physicsBody!.velocity
+            let inVector = contact.bodyB.node!.physicsBody!.velocity
             let outVector = CGVectorMake(inVector.dx*0.5, inVector.dy*0.5)
-            spriteBall.physicsBody?.applyImpulse(outVector)
+            contact.bodyB.node!.physicsBody?.applyImpulse(outVector)
             
             self.runAction(self.soundEffectMiss)
         }
-        
-        if (ballTouched && paddleTouched)
+        else if (ballTouched && paddleTouched)
         {
             debugPrint("paddleTouched")
             
-            let inVector = spriteBall.physicsBody!.velocity
+            let inVector = contact.bodyB.node!.physicsBody!.velocity
             let outVector = CGVectorMake(inVector.dx*2, inVector.dy*2)
-            spriteBall.physicsBody?.applyImpulse(outVector)
-            spriteBall.physicsBody?.applyForce(outVector)
+            contact.bodyB.node!.physicsBody?.applyImpulse(outVector)
+            contact.bodyB.node!.physicsBody?.applyForce(outVector)
      
             self.runAction(self.soundEffectAction)
         }
+        else
+        {
+            debugPrint("otherTouched")
+        }
     }
-    
-// MARK: Special functions.
-    
-    func randomAngle() -> CGFloat
-    {
-        let uintValue = self.randomNumberFrom(25, to: 35)
-        return CGFloat(uintValue) * CGFloat(M_PI / 180)
-    }
-    
-    func randomNumberFrom(low:UInt32, to:UInt32) -> UInt32
-    {
-        return low +  ( arc4random() % (to - low + 1) )
-    }
-    
-    func randomPercentageFrom(low:UInt32, to:UInt32) -> CGFloat
-    {
-        let uintValue = self.randomNumberFrom(low, to: to)
-        return CGFloat(uintValue) / 100.0
-    }
-
 }

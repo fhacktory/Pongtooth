@@ -37,7 +37,7 @@ class BallNode: SKSpriteNode
         name = "Ball";
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
         self.physicsBody?.categoryBitMask = NodeCategory.ball.rawValue
-        self.physicsBody?.contactTestBitMask = NodeCategory.edge.rawValue | NodeCategory.ball.rawValue | NodeCategory.paddle.rawValue
+        self.physicsBody?.contactTestBitMask = NodeCategory.all.rawValue
         self.physicsBody?.allowsRotation = true
         self.physicsBody?.restitution = 0.0
         self.physicsBody?.linearDamping = 0.0
