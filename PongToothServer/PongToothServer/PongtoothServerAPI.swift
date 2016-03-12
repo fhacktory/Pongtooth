@@ -59,12 +59,19 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
         {
         case .PoweredOn:
             print("central poweredOn")
-            centerManager!.scanForPeripheralsWithServices([CBUUID(string: PongToothServerAPIConstants.kServiceUUID)], options: nil)
+            centerManager?.scanForPeripheralsWithServices(nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey:NSNumber(bool: true)])
             break;
         default:
             print(central.state)
         }
 
+    }
+    
+    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
+//        [central stopScan];
+//        aCperipheral = aPeripheral;
+//        centra
+////        [central connectPeripheral:aCperipheral options:nil];
     }
     
     func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
