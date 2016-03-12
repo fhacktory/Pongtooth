@@ -14,8 +14,14 @@ class PongToothServerAPI: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
     var centralManager: CBCentralManager?
     var discoveredPeripheral: [String: CBPeripheral]?
     var data: NSMutableData?
-    let kServiceUUID : String = "312700E2-E798-4D5C-8DCF-49908332DF9F"
-    let kCharacteristicUUID : String = "FFA28CDE-6525-4489-801C-1C060CAC9767"
+    
+    struct PongToothServerAPIConstants{
+        static let kServiceUUID : String = "312700E2-E798-4D5C-8DCF-49908332DF9F"
+        static let kCharacteristicUUID : String = "FFA28CDE-6525-4489-801C-1C060CAC9767"
+    }
+    
+    
+    static let sharedInstance = PongToothServerAPI()
     
     override init () {
         super.init()
@@ -29,9 +35,10 @@ class PongToothServerAPI: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
         switch central.state{
         case .PoweredOn:
             print("poweredOn")
-            let uuid : CBUUID = CBUUID.init(string: kServiceUUID as String)
+            let uuid : CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID as String)
+            
+            // Scans for any peripheral
             centralManager?.scanForPeripheralsWithServices([uuid], options: nil)
-                        // Scans for any peripheral
         default:
             print(central.state)
         }
@@ -47,7 +54,7 @@ class PongToothServerAPI: NSObject, CBCentralManagerDelegate, CBPeripheralDelega
         // Sets the peripheral delegate
         peripheral.delegate = self
         // Asks the peripheral to discover the service
-        let uuid : CBUUID = CBUUID.init(string: kServiceUUID as String)
+        let uuid : CBUUID = CBUUID.init(string: PongToothServerAPIConstants.kServiceUUID as String)
         peripheral.discoverServices([uuid])
     }
     

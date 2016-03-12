@@ -31,7 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.skView!.showsNodeCount = true
             
             //It's not a singleton for the moment
-            PongToothServerAPI()
+            let BTManager : PongToothServerAPI = PongToothServerAPI()
+            print(BTManager)
         }
     }
     
