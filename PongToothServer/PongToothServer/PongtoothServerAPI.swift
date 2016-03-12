@@ -120,24 +120,38 @@ class PongToothServerAPI: NSObject, CBPeripheralManagerDelegate, CBCentralManage
         }
     }
     
-    func nextData()->NSData
+    func nextData() ->  NSData
     {
-        var aData:NSData;
+        var aData = NSData()
+        
         if  self.data?.length > 19
         {
             let dataRest: Int = (self.data?.length)! - 20
-            aData = NSData.init(base64EncodedData: (self.data?.subdataWithRange(NSRange.init(location: 0, length: 20)))!, options: [])!
-            range = NSRange.init(location: 20, length: dataRest)
-        } else {
-            let dataRest: Int = (self.data?.length)!
-            range = NSRange.init(location: 0, length: dataRest)
-            aData = NSData.init(base64EncodedData: (self.data?.subdataWithRange(range!))!, options: [])!
+            
+            if let data = self.data?.subdataWithRange(NSRange(location: 0, length: 20))
+            {
+                aData = NSData(base64EncodedData: data, options: [])!
+                range = NSRange(location: 20, length: dataRest)
+            }
+        }
+        else
+        {
+            if let dataRest: Int = self.data?.length
+            {
+                range = NSRange(location: 0, length: dataRest)
+                
+                if let data = self.data?.subdataWithRange(range!)
+                {
+                    aData = NSData.init(base64EncodedData: data, options: [])!
+                }
+            }
         }
         
         return aData
     }
     
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral)
+    {
         print("jme connecte tavu")
     }
     
