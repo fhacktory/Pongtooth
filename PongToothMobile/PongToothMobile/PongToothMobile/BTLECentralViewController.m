@@ -183,7 +183,7 @@
     if ([stringFromData isEqualToString:@"EOM"]) {
         
         // We have, so show the data, 
-        NSLog([[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding]);
+        NSLog(@"%@", [[NSString alloc] initWithData:self.data encoding:NSUTF8StringEncoding]);
         
         // Cancel our subscription to the characteristic
         [peripheral setNotifyValue:NO forCharacteristic:characteristic];
