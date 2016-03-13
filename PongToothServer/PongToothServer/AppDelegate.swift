@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
 //        let BTManager : PongToothServerAPI = PongToothServerAPI.sharedInstance
 //        print(BTManager)
         
-        let adv: Advertiser = Advertiser()
+        let adv: MultiPeer = MultiPeer()
         adv.start()
     }
     
