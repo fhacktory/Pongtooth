@@ -12,12 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var peerManager : BTLECentralViewController?
+    var peerManager : BTLEPeripheralViewController?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        peerManager = BTLECentralViewController()
+        peerManager = BTLEPeripheralViewController()
+        
         return true
     }
 

@@ -23,6 +23,7 @@
 		F3C0A9661C9469C600A08C01 /* PTBluetoothHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0A9651C9469C600A08C01 /* PTBluetoothHandler.swift */; };
 		F3CEBFA51C9514D300D1B18C /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CEBFA41C9514D300D1B18C /* BluetoothManager.swift */; };
 		F3CEBFAF1C9547AA00D1B18C /* BTLECentralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CEBFAE1C9547AA00D1B18C /* BTLECentralViewController.m */; };
+		F3CEBFC01C955D1200D1B18C /* BTLEPeripheralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CEBFBF1C955D1200D1B18C /* BTLEPeripheralViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		F3CEBFA91C95427A00D1B18C /* PongToothMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PongToothMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		F3CEBFAD1C9547AA00D1B18C /* BTLECentralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTLECentralViewController.h; sourceTree = "<group>"; };
 		F3CEBFAE1C9547AA00D1B18C /* BTLECentralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BTLECentralViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F3CEBFBE1C955D1200D1B18C /* BTLEPeripheralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTLEPeripheralViewController.h; path = ../../../PongToothServer/PongToothServer/BTLEPeripheralViewController.h; sourceTree = "<group>"; };
+		F3CEBFBF1C955D1200D1B18C /* BTLEPeripheralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BTLEPeripheralViewController.m; path = ../../../PongToothServer/PongToothServer/BTLEPeripheralViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +185,8 @@
 		F3CEBFA81C953EB000D1B18C /* BluetoothObj-C */ = {
 			isa = PBXGroup;
 			children = (
+				F3CEBFBE1C955D1200D1B18C /* BTLEPeripheralViewController.h */,
+				F3CEBFBF1C955D1200D1B18C /* BTLEPeripheralViewController.m */,
 				F3CEBFAD1C9547AA00D1B18C /* BTLECentralViewController.h */,
 				F3CEBFAE1C9547AA00D1B18C /* BTLECentralViewController.m */,
 				F3CEBFA91C95427A00D1B18C /* PongToothMobile-Bridging-Header.h */,
@@ -322,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3C0A9661C9469C600A08C01 /* PTBluetoothHandler.swift in Sources */,
+				F3CEBFC01C955D1200D1B18C /* BTLEPeripheralViewController.m in Sources */,
 				F3CEBFAF1C9547AA00D1B18C /* BTLECentralViewController.m in Sources */,
 				F3C0A9641C9468D000A08C01 /* PTBluetoothManager.swift in Sources */,
 				F3CEBFA51C9514D300D1B18C /* BluetoothManager.swift in Sources */,

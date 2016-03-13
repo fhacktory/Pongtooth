@@ -14,7 +14,7 @@ class MultiPeer : NSObject, MCNearbyServiceBrowserDelegate, MCSessionDelegate
     var browser : MCNearbyServiceBrowser!
     var session : MCSession!
     var connectedPeers : NSMutableArray
-    let peerID: MCPeerID = MCPeerID(displayName: "pongtooth-mobile")
+    let peerID: MCPeerID = MCPeerID(displayName: "pongtooth-mobile-2")
     let serviceType: String = "pongtooth"
     
     override init()

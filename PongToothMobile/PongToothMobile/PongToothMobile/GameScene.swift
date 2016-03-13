@@ -26,14 +26,29 @@ class GameScene: SKScene {
     var statusLabel : UILabel!
     var ball = SKSpriteNode(imageNamed:"DuskBall")
     
+    lazy var accelQueue:NSOperationQueue = {
+        var queue = NSOperationQueue()
+        queue.name = "accel queue"
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+    
     override func didMoveToView(view: SKView) {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: NSSelectorFromString("peerDidChangeStateWithNotification:"), name:"MCDidChangeStateNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:
             NSSelectorFromString("didReceiveDataWithNotification:"), name:"MCDidReceiveDataNotification", object: nil)
         
+        self.appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), {
+            self.appDelegate.peerManager?.start()
+        });
+        
+        var lastValue : CGFloat = 0;
+        
         motionManager = CMMotionManager()
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
+        motionManager.startAccelerometerUpdatesToQueue(accelQueue, withHandler:{
             data, error in
             
             let currentX = self.padel.position.x
@@ -42,6 +57,18 @@ class GameScene: SKScene {
             if (destX - self.PADEL_WIDTH / 2) >= 0 && (destX + self.PADEL_WIDTH / 2) <= self.size.width {
                 self.padel.position.x = destX
             }
+            
+            
+            var value : CGFloat = (destX / self.size.width)
+            value = round(100*value)/100
+            
+            if  value == lastValue {
+                return
+            }
+            
+            lastValue = value
+            let toSend = String(value)
+            self.appDelegate.peerManager?.sendData(toSend.dataUsingEncoding(NSUTF8StringEncoding))
         })
         
         // Set up status label
@@ -59,6 +86,7 @@ class GameScene: SKScene {
         
         self.addChild(ball)
         self.addChild(padel)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
