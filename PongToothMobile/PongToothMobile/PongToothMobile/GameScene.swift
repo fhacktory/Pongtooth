@@ -26,6 +26,13 @@ class GameScene: SKScene {
     var statusLabel : UILabel!
     var ball = SKSpriteNode(imageNamed:"DuskBall")
     
+    lazy var accelQueue:NSOperationQueue = {
+        var queue = NSOperationQueue()
+        queue.name = "accel queue"
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+    
     override func didMoveToView(view: SKView) {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: NSSelectorFromString("peerDidChangeStateWithNotification:"), name:"MCDidChangeStateNotification", object: nil)
@@ -38,8 +45,10 @@ class GameScene: SKScene {
             self.appDelegate.peerManager?.start()
         });
         
+        var lastValue : CGFloat = 0;
+        
         motionManager = CMMotionManager()
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
+        motionManager.startAccelerometerUpdatesToQueue(accelQueue, withHandler:{
             data, error in
             
             let currentX = self.padel.position.x
@@ -49,9 +58,17 @@ class GameScene: SKScene {
                 self.padel.position.x = destX
             }
             
-            let value : String = String((destX / self.size.width))
             
-            self.appDelegate.peerManager?.sendData(value.dataUsingEncoding(NSUTF8StringEncoding))
+            var value : CGFloat = (destX / self.size.width)
+            value = round(100*value)/100
+            
+            if  value == lastValue {
+                return
+            }
+            
+            lastValue = value
+            let toSend = String(value)
+            self.appDelegate.peerManager?.sendData(toSend.dataUsingEncoding(NSUTF8StringEncoding))
         })
         
         // Set up status label

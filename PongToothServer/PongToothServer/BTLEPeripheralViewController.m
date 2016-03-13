@@ -2,7 +2,7 @@
 
 #import "BTLEPeripheralViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "PongToothMobile-Bridging-Header.h"
+#import "PongToothServer-Bridging-Header.h"
 
 
 @interface BTLEPeripheralViewController () <CBPeripheralManagerDelegate>
@@ -103,9 +103,7 @@
 {
     self.dataToSend = data;
     
-    if (self.sendDataIndex >= self.dataToSend.length) {
-        return;
-    }
+    self.sendDataIndex = 0;
     
     // There's data left, so send until the callback fails, or we're done.
     
@@ -140,7 +138,6 @@
         
         // Was it the last one?
         if (self.sendDataIndex >= self.dataToSend.length) {
-            
             return;
         }
     }
@@ -153,10 +150,6 @@
 - (void)peripheralManagerIsReadyToUpdateSubscribers:(CBPeripheralManager *)peripheral
 {
     // Start sending again
-    NSLog(@"Send");
-    NSString *value = [NSString stringWithFormat:@"%@", @(0.5)];
-    
-    [self sendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 
