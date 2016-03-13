@@ -122,6 +122,9 @@
         // Copy out the data we want
         NSData *chunk = [NSData dataWithBytes:self.dataToSend.bytes+self.sendDataIndex length:amountToSend];
         
+        if (!self.transferCharacteristic) {
+            return;
+        }
         // Send it
         didSend = [self.peripheralManager updateValue:chunk forCharacteristic:self.transferCharacteristic onSubscribedCentrals:nil];
         
