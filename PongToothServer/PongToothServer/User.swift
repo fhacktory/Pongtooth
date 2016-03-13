@@ -33,4 +33,16 @@ class User : NSObject
         
         super.init()
     }
+    
+    func changePosition(position: CGPoint)
+    {
+        if self.position == UserPostion.left || self.position == UserPostion.right
+        {
+            paddleNode!.position.y = position.y
+        }
+        else
+        {
+            paddleNode!.position.x = position.x
+        }
+    }
 }

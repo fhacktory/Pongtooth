@@ -19,14 +19,8 @@ enum NodeCategory: UInt32
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    var leftEdge:EdgeNode!
-    var rightEdge:EdgeNode!
-    var topEdge:EdgeNode!
-    var bottomEdge:EdgeNode!
-    
     var spriteBalls: [BallNode] = []
     
-    var paddles: [PaddleNode] = []
     var soundEffectAction:SKAction = SKAction.playSoundFileNamed("beep.wav", waitForCompletion: false)
     var soundEffectMiss:SKAction = SKAction.playSoundFileNamed("bop.wav", waitForCompletion: false)
     
@@ -77,14 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         for user in users
         {
-            if user.position == UserPostion.left || user.position == UserPostion.right
-            {
-                user.paddleNode!.position.y = position.y
-            }
-            else
-            {
-                user.paddleNode!.position.x = position.x
-            }
+            user.changePosition(position)
         }
     }
 
@@ -177,6 +164,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             }
         }
 
+        return false
+    }
+    
+    func moveUser(userID: String, position: CGPoint) -> Bool
+    {
+        if self.users.count == 0
+        {
+            return false
+        }
+        
+        for user in users
+        {
+            if user.identifier == userID
+            {
+                user.changePosition(position)
+                return true
+            }
+        }
+        
         return false
     }
     
