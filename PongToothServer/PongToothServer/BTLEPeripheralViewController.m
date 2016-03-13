@@ -42,7 +42,7 @@
 
 - (void)start {
     NSLog(@"Start advertising");
-    [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]] }];
+    [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]] }];
 }
 
 /** Required protocol method.  A full app should take care of all the possible states,
@@ -61,13 +61,13 @@
     // ... so build our service.
     
     // Start with the CBMutableCharacteristic
-    self.transferCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]
+    self.transferCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]
                                                                       properties:CBCharacteristicPropertyNotify
                                                                            value:nil
                                                                      permissions:CBAttributePermissionsReadable];
 
     // Then the service
-    CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]
+    CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]
                                                                         primary:YES];
     
     // Add the characteristic to the service
