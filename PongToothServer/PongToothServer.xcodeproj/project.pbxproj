@@ -17,6 +17,8 @@
 		0210E6BF1C94B99900B44652 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6BE1C94B99900B44652 /* beep.wav */; };
 		0210E6C41C94BD1600B44652 /* bop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6C31C94BD1600B44652 /* bop.wav */; };
 		0210E6C61C94DEE400B44652 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6C51C94DEE400B44652 /* User.swift */; };
+		0210E6EA1C95136700B44652 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6E91C95136700B44652 /* Peripheral.swift */; };
+		0210E6F01C95319700B44652 /* misc128.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6EF1C95319700B44652 /* misc128.wav */; };
 		1A5043211C94EDFF00CF4D3C /* MultiPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5043201C94EDFF00CF4D3C /* MultiPeer.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +35,8 @@
 		0210E6BE1C94B99900B44652 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		0210E6C31C94BD1600B44652 /* bop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bop.wav; sourceTree = "<group>"; };
 		0210E6C51C94DEE400B44652 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0210E6E91C95136700B44652 /* Peripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
+		0210E6EF1C95319700B44652 /* misc128.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = misc128.wav; sourceTree = "<group>"; };
 		1A5043201C94EDFF00CF4D3C /* MultiPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPeer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,9 +77,11 @@
 				0210E6BA1C946BD900B44652 /* EdgeNode.swift */,
 				0210E6C51C94DEE400B44652 /* User.swift */,
 				1A5043201C94EDFF00CF4D3C /* MultiPeer.swift */,
+				0210E6E91C95136700B44652 /* Peripheral.swift */,
 				0210E6AD1C94473400B44652 /* Assets.xcassets */,
 				0210E6BE1C94B99900B44652 /* beep.wav */,
 				0210E6C31C94BD1600B44652 /* bop.wav */,
+				0210E6EF1C95319700B44652 /* misc128.wav */,
 				0210E6AF1C94473400B44652 /* MainMenu.xib */,
 				0210E6B21C94473400B44652 /* Info.plist */,
 			);
@@ -143,6 +149,7 @@
 				0210E6BF1C94B99900B44652 /* beep.wav in Resources */,
 				0210E6AE1C94473400B44652 /* Assets.xcassets in Resources */,
 				0210E6C41C94BD1600B44652 /* bop.wav in Resources */,
+				0210E6F01C95319700B44652 /* misc128.wav in Resources */,
 				0210E6B11C94473400B44652 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +168,7 @@
 				1A5043211C94EDFF00CF4D3C /* MultiPeer.swift in Sources */,
 				0210E6A81C94473400B44652 /* AppDelegate.swift in Sources */,
 				0210E6C61C94DEE400B44652 /* User.swift in Sources */,
+				0210E6EA1C95136700B44652 /* Peripheral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

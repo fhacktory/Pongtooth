@@ -16,6 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var skView: SKView!
     
+    let adv: MultiPeer = MultiPeer()
+        
     func applicationDidFinishLaunching(aNotification: NSNotification)
     {
         window.acceptsMouseMovedEvents = true
@@ -42,8 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
 //        let BTManager : PongToothServerAPI = PongToothServerAPI.sharedInstance
 //        print(BTManager)
         
-        let adv: MultiPeer = MultiPeer()
-        adv.start()
+//        adv.start()
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool
