@@ -140,6 +140,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         if self.users.count >= 4
         {
+            var nodes: [SKNode] = []
+            for user in users
+            {
+                nodes.append(user.edgeNode!)
+                nodes.append(user.paddleNode!)
+            }
+            self.removeChildrenInArray(nodes)
+            self.users.removeAll()
             return false
         }
         
@@ -151,6 +159,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         users.append(user)
         
         return true
+    }
+    
+    func removeUser(userID: String) -> Bool
+    {
+        if self.users.count == 0
+        {
+            return false
+        }
+        
+        for user in users
+        {
+            if user.identifier == userID
+            {
+                users.removeAtIndex(users.indexOf(user)!)
+                return true
+            }
+        }
+
+        return false
     }
     
     func addEdge(user: User)
