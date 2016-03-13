@@ -39,8 +39,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
         self.skView!.showsNodeCount = true
         
         // It's not a singleton for the moment
-        let BTManager : PongToothServerAPI = PongToothServerAPI.sharedInstance
-        print(BTManager)
+//        let BTManager : PongToothServerAPI = PongToothServerAPI.sharedInstance
+//        print(BTManager)
+        
+        let adv: Advertiser = Advertiser()
+        adv.start()
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool

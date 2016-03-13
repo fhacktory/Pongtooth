@@ -103,8 +103,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
 //        spriteBall.setScale(0.1)
 //        self.addChild(spriteBall)
 //        spriteBalls.append(spriteBall)
-        
-        PongToothServerAPI.sharedInstance.addManager()
     }
     
     override func didChangeSize(oldSize: CGSize)
