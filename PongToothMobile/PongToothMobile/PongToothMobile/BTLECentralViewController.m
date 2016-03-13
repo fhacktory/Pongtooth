@@ -19,17 +19,21 @@
 
 
 
-- (instancetype)init
+- (instancetype)initWithIdentifier:(NSString *)identifier
 {
     self = [super init];
     
-    if(self) {
-    // Start up the CBCentralManager
-    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    
-    // And somewhere to store the incoming data
-    _data = [[NSMutableData alloc] init];
+    if(self)
+    {
+        // Start up the CBCentralManager
+        _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+        
+        // And somewhere to store the incoming data
+        _data = [[NSMutableData alloc] init];
+        
+        _identifier = identifier;
     }
+    
     return self;
 }
 
@@ -62,10 +66,15 @@
  */
 - (void)scan
 {
-    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]]
+    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:[self serviceID]]]
                                                 options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
     
     NSLog(@"Scanning started");
+}
+
+- (NSString *)serviceID
+{
+    return [NSString stringWithFormat:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A96%@",self.identifier];
 }
 
 
@@ -76,7 +85,7 @@
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
     
-    NSLog(@"Discovered %@ at %@", peripheral.name, RSSI);
+//    NSLog(@"Discovered %@ at %@", peripheral.name, RSSI);
     
     // Ok, it's in range - have we already seen it?
     if (self.discoveredPeripheral != peripheral) {
@@ -85,7 +94,7 @@
         self.discoveredPeripheral = peripheral;
         
         // And connect
-        NSLog(@"Connecting to peripheral %@", peripheral);
+//        NSLog(@"Connecting to peripheral %@", peripheral);
         [self.centralManager connectPeripheral:peripheral options:nil];
     }
 }
@@ -104,11 +113,11 @@
  */
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    NSLog(@"Peripheral Connected");
+//    NSLog(@"Peripheral Connected");
     
     // Stop scanning
     [self.centralManager stopScan];
-    NSLog(@"Scanning stopped");
+//    NSLog(@"Scanning stopped");
     
     // Clear the data that we may already have
     [self.data setLength:0];
@@ -117,7 +126,7 @@
     peripheral.delegate = self;
     
     // Search only for services that match our UUID
-    [peripheral discoverServices:@[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]]];
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:[self serviceID]]]];
 }
 
 
@@ -195,8 +204,15 @@
     // Otherwise, just add the data on to what we already have
     [self.data appendData:characteristic.value];
     
+    // TODO: Transfet data to delegate.
+    
     // Log it
-    NSLog(@"Received: %@", stringFromData);
+    NSLog(@"%@ Received: %@", peripheral.identifier.UUIDString, stringFromData);
+    NSScanner *scan = [NSScanner scannerWithString:stringFromData];
+    if (self.delegate && [self.delegate respondsToSelector:NSSelectorFromString(@"moveUser:value:")] && [scan scanFloat:nil] && stringFromData.integerValue < 1)
+    {
+        [self.delegate performSelector:NSSelectorFromString(@"moveUser:value:") withObject:peripheral.identifier.UUIDString withObject:@(stringFromData.floatValue)];
+    }
 }
 
 
@@ -215,13 +231,17 @@
     
     // Notification has started
     if (characteristic.isNotifying) {
-        NSLog(@"Notification began on %@", characteristic);
+        NSLog(@"%@ Notification began on %@", peripheral.identifier.UUIDString, characteristic);
+        if (self.delegate && [self.delegate respondsToSelector:NSSelectorFromString(@"addUser:")])
+        {
+            [self.delegate performSelector:NSSelectorFromString(@"addUser:") withObject:peripheral.identifier.UUIDString];
+        }
     }
     
     // Notification has stopped
     else {
         // so disconnect from the peripheral
-        NSLog(@"Notification stopped on %@.  Disconnecting", characteristic);
+        NSLog(@"%@ Notification stopped on %@.  Disconnecting", peripheral.identifier.UUIDString, characteristic);
         [self.centralManager cancelPeripheralConnection:peripheral];
     }
 }
@@ -231,7 +251,13 @@
  */
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    NSLog(@"Peripheral Disconnected");
+    NSString *identity = peripheral.identifier.UUIDString;
+    NSLog(@"%@ Peripheral Disconnected", identity);
+    if (self.delegate && [self.delegate respondsToSelector:NSSelectorFromString(@"removeUser:")])
+    {
+        [self.delegate performSelector:NSSelectorFromString(@"removeUser:") withObject:identity];
+    }
+
     self.discoveredPeripheral = nil;
     
     // We're disconnected, so start scanning again
