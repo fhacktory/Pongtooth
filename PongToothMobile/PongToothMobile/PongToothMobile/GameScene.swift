@@ -32,9 +32,6 @@ class GameScene: SKScene {
         NSNotificationCenter.defaultCenter().addObserver(self, selector:
             NSSelectorFromString("didReceiveDataWithNotification:"), name:"MCDidReceiveDataNotification", object: nil)
         
-        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate;
-        appDelegate.peerManager!.start()
-        
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
             data, error in
@@ -69,13 +66,6 @@ class GameScene: SKScene {
         
         for touch in touches {
             ball.position = touch.locationInNode(self)
-            
-            let dataToSend : NSData = "oyoyo".dataUsingEncoding(NSUTF8StringEncoding)!
-            let allPeers = appDelegate.peerManager!.session.connectedPeers
-            
-            do {
-                try appDelegate.peerManager!.session.sendData(dataToSend, toPeers: allPeers, withMode: MCSessionSendDataMode.Reliable)
-            } catch {}
         }
     }
    

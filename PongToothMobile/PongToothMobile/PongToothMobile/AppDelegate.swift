@@ -12,12 +12,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var peerManager : MultiPeer?
+    var peerManager : BTLECentralViewController?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        peerManager = MultiPeer()
+        peerManager = BTLECentralViewController()
         return true
     }
 

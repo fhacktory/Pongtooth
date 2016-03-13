@@ -21,6 +21,8 @@
 		F3C0A9611C94557600A08C01 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C0A9601C94557600A08C01 /* CoreBluetooth.framework */; };
 		F3C0A9641C9468D000A08C01 /* PTBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0A9631C9468D000A08C01 /* PTBluetoothManager.swift */; };
 		F3C0A9661C9469C600A08C01 /* PTBluetoothHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0A9651C9469C600A08C01 /* PTBluetoothHandler.swift */; };
+		F3CEBFA51C9514D300D1B18C /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CEBFA41C9514D300D1B18C /* BluetoothManager.swift */; };
+		F3CEBFAF1C9547AA00D1B18C /* BTLECentralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CEBFAE1C9547AA00D1B18C /* BTLECentralViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,10 @@
 		F3C0A9601C94557600A08C01 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		F3C0A9631C9468D000A08C01 /* PTBluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PTBluetoothManager.swift; sourceTree = "<group>"; };
 		F3C0A9651C9469C600A08C01 /* PTBluetoothHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PTBluetoothHandler.swift; sourceTree = "<group>"; };
+		F3CEBFA41C9514D300D1B18C /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		F3CEBFA91C95427A00D1B18C /* PongToothMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PongToothMobile-Bridging-Header.h"; sourceTree = "<group>"; };
+		F3CEBFAD1C9547AA00D1B18C /* BTLECentralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTLECentralViewController.h; sourceTree = "<group>"; };
+		F3CEBFAE1C9547AA00D1B18C /* BTLECentralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTLECentralViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,8 @@
 		F3C0A92D1C94504400A08C01 /* PongToothMobile */ = {
 			isa = PBXGroup;
 			children = (
+				F3CEBFA81C953EB000D1B18C /* BluetoothObj-C */,
+				F3CEBFA31C9512E500D1B18C /* Bluetooth2 */,
 				F37EAAF01C94D6A400323D3B /* MultiPeer */,
 				F3C0A9621C9468A000A08C01 /* Bluetooth */,
 				F3C0A92E1C94504400A08C01 /* AppDelegate.swift */,
@@ -161,6 +169,24 @@
 				F3C0A9651C9469C600A08C01 /* PTBluetoothHandler.swift */,
 			);
 			name = Bluetooth;
+			sourceTree = "<group>";
+		};
+		F3CEBFA31C9512E500D1B18C /* Bluetooth2 */ = {
+			isa = PBXGroup;
+			children = (
+				F3CEBFA41C9514D300D1B18C /* BluetoothManager.swift */,
+			);
+			name = Bluetooth2;
+			sourceTree = "<group>";
+		};
+		F3CEBFA81C953EB000D1B18C /* BluetoothObj-C */ = {
+			isa = PBXGroup;
+			children = (
+				F3CEBFAD1C9547AA00D1B18C /* BTLECentralViewController.h */,
+				F3CEBFAE1C9547AA00D1B18C /* BTLECentralViewController.m */,
+				F3CEBFA91C95427A00D1B18C /* PongToothMobile-Bridging-Header.h */,
+			);
+			name = "BluetoothObj-C";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +257,6 @@
 				TargetAttributes = {
 					F3C0A92A1C94504400A08C01 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 56UYYJ857L;
 					};
 					F3C0A9421C94504400A08C01 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -297,7 +322,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3C0A9661C9469C600A08C01 /* PTBluetoothHandler.swift in Sources */,
+				F3CEBFAF1C9547AA00D1B18C /* BTLECentralViewController.m in Sources */,
 				F3C0A9641C9468D000A08C01 /* PTBluetoothManager.swift in Sources */,
+				F3CEBFA51C9514D300D1B18C /* BluetoothManager.swift in Sources */,
 				F3C0A9331C94504400A08C01 /* GameScene.swift in Sources */,
 				F3C0A9351C94504400A08C01 /* GameViewController.swift in Sources */,
 				F37EAAF41C94F1BB00323D3B /* MultiPeer.swift in Sources */,
@@ -444,6 +471,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PongToothMobile/Info.plist;
@@ -451,6 +479,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.fhacktory.PongToothMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "PongToothMobile/PongToothMobile-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -458,6 +488,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PongToothMobile/Info.plist;
@@ -465,6 +496,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.fhacktory.PongToothMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "PongToothMobile/PongToothMobile-Bridging-Header.h";
 			};
 			name = Release;
 		};
