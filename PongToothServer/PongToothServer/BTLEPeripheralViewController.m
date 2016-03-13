@@ -2,7 +2,7 @@
 
 #import "BTLEPeripheralViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "PongToothServer-Bridging-Header.h"
+#import "PongToothMobile-Bridging-Header.h"
 
 
 @interface BTLEPeripheralViewController () <CBPeripheralManagerDelegate>
@@ -41,7 +41,6 @@
 #pragma mark - Peripheral Methods
 
 - (void)start {
-    NSLog(@"Start advertising");
     [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]] }];
 }
 
@@ -54,9 +53,6 @@
     if (peripheral.state != CBPeripheralManagerStatePoweredOn) {
         return;
     }
-    
-    // We're in CBPeripheralManagerStatePoweredOn state...
-    NSLog(@"self.peripheralManager powered on.");
     
     // ... so build our service.
     
@@ -85,13 +81,10 @@
     NSLog(@"Central subscribed to characteristic");
     
     // Get the data
-    self.dataToSend = [@"coucou" dataUsingEncoding:NSUTF8StringEncoding];
+    self.dataToSend = nil;
     
     // Reset the index
     self.sendDataIndex = 0;
-    
-    // Start sending
-    [self sendData];
 }
 
 
@@ -100,41 +93,17 @@
 - (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didUnsubscribeFromCharacteristic:(CBCharacteristic *)characteristic
 {
     NSLog(@"Central unsubscribed from characteristic");
+    
 }
 
 
 /** Sends the next amount of data to the connected central
  */
-- (void)sendData
+- (void)sendData:(NSData *)data
 {
-    // First up, check if we're meant to be sending an EOM
-    static BOOL sendingEOM = NO;
-    
-    if (sendingEOM) {
-        
-        // send it
-        BOOL didSend = [self.peripheralManager updateValue:[@"EOM" dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:self.transferCharacteristic onSubscribedCentrals:nil];
-        
-        // Did it send?
-        if (didSend) {
-            
-            // It did, so mark it as sent
-            sendingEOM = NO;
-            
-            NSLog(@"Sent: EOM");
-        }
-        
-        // It didn't send, so we'll exit and wait for peripheralManagerIsReadyToUpdateSubscribers to call sendData again
-        return;
-    }
-    
-    // We're not sending an EOM, so we're sending data
-    
-    // Is there any left to send?
+    self.dataToSend = data;
     
     if (self.sendDataIndex >= self.dataToSend.length) {
-        
-        // No data left.  Do nothing
         return;
     }
     
@@ -172,21 +141,6 @@
         // Was it the last one?
         if (self.sendDataIndex >= self.dataToSend.length) {
             
-            // It was - send an EOM
-            
-            // Set this so if the send fails, we'll send it next time
-            sendingEOM = YES;
-            
-            // Send it
-            BOOL eomSent = [self.peripheralManager updateValue:[@"EOM" dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:self.transferCharacteristic onSubscribedCentrals:nil];
-            
-            if (eomSent) {
-                // It sent, we're all done
-                sendingEOM = NO;
-                
-                NSLog(@"Sent: EOM");
-            }
-            
             return;
         }
     }
@@ -200,7 +154,9 @@
 {
     // Start sending again
     NSLog(@"Send");
-    [self sendData];
+    NSString *value = [NSString stringWithFormat:@"%@", @(0.5)];
+    
+    [self sendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 

@@ -55,4 +55,6 @@
 
 - (void)start;
 
+- (void)sendData:(NSData *)data;
+
 @end

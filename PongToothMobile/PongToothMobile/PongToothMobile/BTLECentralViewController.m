@@ -1,7 +1,7 @@
 
 #import "BTLECentralViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "PongToothServer-Bridging-Header.h"
+#import "PongToothMobile-Bridging-Header.h"
 
 @interface BTLECentralViewController () <CBCentralManagerDelegate, CBPeripheralDelegate>
 

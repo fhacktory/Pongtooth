@@ -32,6 +32,12 @@ class GameScene: SKScene {
         NSNotificationCenter.defaultCenter().addObserver(self, selector:
             NSSelectorFromString("didReceiveDataWithNotification:"), name:"MCDidReceiveDataNotification", object: nil)
         
+        self.appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), {
+            self.appDelegate.peerManager?.start()
+        });
+        
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
             data, error in
@@ -42,6 +48,10 @@ class GameScene: SKScene {
             if (destX - self.PADEL_WIDTH / 2) >= 0 && (destX + self.PADEL_WIDTH / 2) <= self.size.width {
                 self.padel.position.x = destX
             }
+            
+            let value : String = String((destX / self.size.width))
+            
+            self.appDelegate.peerManager?.sendData(value.dataUsingEncoding(NSUTF8StringEncoding))
         })
         
         // Set up status label
@@ -59,6 +69,7 @@ class GameScene: SKScene {
         
         self.addChild(ball)
         self.addChild(padel)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
