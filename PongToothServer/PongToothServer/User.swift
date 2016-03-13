@@ -25,7 +25,7 @@ class User : NSObject
     var score:Int = 100 {
         didSet
         {
-            if score >= 0 || score <= 200
+            if score >= 0 && score <= 200
             {
                 self.paddleNode?.setValue(score)
             }
