@@ -44,8 +44,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(createEdge(UserPostion.right, width: CGFloat(1)))
         self.addChild(createEdge(UserPostion.bottom, width: CGFloat(1)))
         self.addChild(createEdge(UserPostion.top, width: CGFloat(1)))
-
-        PongToothServerAPI.sharedInstance.addManager()
     }
     
     override func mouseDown(theEvent: NSEvent)
