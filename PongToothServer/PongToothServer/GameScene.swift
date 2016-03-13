@@ -19,10 +19,13 @@ enum NodeCategory: UInt32
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
+    let btm: Peripheral = Peripheral()
+
     var spriteBalls: [BallNode] = []
     
     var soundEffectAction:SKAction = SKAction.playSoundFileNamed("beep.wav", waitForCompletion: false)
     var soundEffectMiss:SKAction = SKAction.playSoundFileNamed("bop.wav", waitForCompletion: false)
+    var soundEffectBall:SKAction = SKAction.playSoundFileNamed("misc128.wav", waitForCompletion: false)
     
     var users: [User] = []
 
@@ -61,6 +64,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         spriteBall.physicsBody?.applyImpulse(CGVectorMake(1000, 800))
         spriteBall.physicsBody?.applyForce(CGVectorMake(100, 80))
+        
+        btm.start()
     }
     
     override func mouseMoved(theEvent: NSEvent)
@@ -92,6 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         let paddleTouched = contact.bodyA.categoryBitMask == NodeCategory.paddle.rawValue
         let ballTouched = contact.bodyB.categoryBitMask == NodeCategory.ball.rawValue
+        let otherBallTouched = contact.bodyA.categoryBitMask == NodeCategory.ball.rawValue
         let edgeTouched = contact.bodyA.categoryBitMask == NodeCategory.edge.rawValue
         
         if (ballTouched && edgeTouched)
@@ -110,6 +116,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             contact.bodyB.node!.physicsBody?.applyForce(outVector)
      
             self.runAction(self.soundEffectAction)
+        }
+        else if (ballTouched && otherBallTouched)
+        {
+            self.runAction(self.soundEffectBall)
         }
         else
         {
