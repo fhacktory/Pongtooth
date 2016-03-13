@@ -19,9 +19,9 @@ enum NodeCategory: UInt32
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    var btm: BTLECentralViewController! = nil
-
     var spriteBalls: [BallNode] = []
+    
+    var btms: [BTLECentralViewController] = []
     
     var soundEffectAction:SKAction = SKAction.playSoundFileNamed("beep.wav", waitForCompletion: false)
     var soundEffectMiss:SKAction = SKAction.playSoundFileNamed("bop.wav", waitForCompletion: false)
@@ -47,11 +47,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(createEdge(UserPostion.right, width: CGFloat(1)))
         self.addChild(createEdge(UserPostion.bottom, width: CGFloat(1)))
         self.addChild(createEdge(UserPostion.top, width: CGFloat(1)))
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            let btm = BTLECentralViewController(identifier: "1")
+            btm.delegate = self
+            self.btms.append(btm)
+        }
     }
     
     override func mouseDown(theEvent: NSEvent)
     {
-        addUser("1")
+//        addUser("007")
 
         let position = theEvent.locationInNode(self)
 
@@ -64,19 +70,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         spriteBall.physicsBody?.applyImpulse(CGVectorMake(1000, 800))
         spriteBall.physicsBody?.applyForce(CGVectorMake(100, 80))
-        
-        btm = BTLECentralViewController()
     }
     
-    override func mouseMoved(theEvent: NSEvent)
-    {
-        let position = theEvent.locationInNode(self)
-        
-        for user in users
-        {
-            user.changePosition(position)
-        }
-    }
+//    override func mouseMoved(theEvent: NSEvent)
+//    {
+//        let position = theEvent.locationInNode(self)
+//        
+//        for user in users
+//        {
+//            user.changePosition(position)
+//        }
+//    }
 
     override func update(currentTime: CFTimeInterval)
     {
@@ -148,15 +152,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         let positions = [UserPostion.left, UserPostion.right, UserPostion.bottom, UserPostion.top]
         
-        let user = User(userID: "", position: positions[users.count])
+        let user = User(userID: userID, position: positions[users.count])
         addEdge(user)
         addPaddle(user)
         users.append(user)
         
+        let btm = BTLECentralViewController(identifier: String(users.count+1))
+        btm.delegate = self
+        btms.append(btm)
+        
         return true
     }
     
-    func removeUser(userID: String) -> Bool
+    func removeUser(userID: NSString) -> Bool
     {
         if self.users.count == 0
         {
@@ -173,6 +181,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
 
         return false
+    }
+    
+    func moveUser(userID: String, value: NSNumber) -> Bool
+    {
+        if self.users.count == 0
+        {
+            return false
+        }
+        
+        for user in users
+        {
+            if user.identifier == userID
+            {
+                var position: CGPoint!
+                if user.position == UserPostion.left || user.position == UserPostion.top
+                {
+                    position = CGPoint(x: self.frame.size.width * CGFloat(1 - value.floatValue), y: self.frame.size.height * CGFloat(1 - value.floatValue))
+                }
+                else
+                {
+                    position = CGPoint(x: self.frame.size.width * CGFloat(value), y: self.frame.size.height * CGFloat(value))
+                }
+                
+                user.changePosition(position)
+                return true
+            }
+        }
+        
+        moveUser(userID, position: position)
+        
+        return true
     }
     
     func moveUser(userID: String, position: CGPoint) -> Bool
