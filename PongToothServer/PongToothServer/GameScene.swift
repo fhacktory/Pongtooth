@@ -19,7 +19,7 @@ enum NodeCategory: UInt32
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    let btm: BTLEPeripheralViewController = BTLEPeripheralViewController()
+    var btm: BTLECentralViewController! = nil
 
     var spriteBalls: [BallNode] = []
     
@@ -65,7 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         spriteBall.physicsBody?.applyImpulse(CGVectorMake(1000, 800))
         spriteBall.physicsBody?.applyForce(CGVectorMake(100, 80))
         
-        btm.start()
+        btm = BTLECentralViewController()
     }
     
     override func mouseMoved(theEvent: NSEvent)

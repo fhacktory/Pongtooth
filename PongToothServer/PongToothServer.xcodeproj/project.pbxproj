@@ -19,6 +19,7 @@
 		0210E6C61C94DEE400B44652 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6C51C94DEE400B44652 /* User.swift */; };
 		0210E6EA1C95136700B44652 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6E91C95136700B44652 /* Peripheral.swift */; };
 		0210E6F01C95319700B44652 /* misc128.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6EF1C95319700B44652 /* misc128.wav */; };
+		0210E6F51C95571200B44652 /* BTLECentralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6F41C95571200B44652 /* BTLECentralViewController.m */; };
 		1A5043211C94EDFF00CF4D3C /* MultiPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5043201C94EDFF00CF4D3C /* MultiPeer.swift */; };
 		F3CEBFB41C954E6400D1B18C /* BTLEPeripheralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CEBFB31C954E6400D1B18C /* BTLEPeripheralViewController.m */; };
 /* End PBXBuildFile section */
@@ -38,10 +39,12 @@
 		0210E6C51C94DEE400B44652 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0210E6E91C95136700B44652 /* Peripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
 		0210E6EF1C95319700B44652 /* misc128.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = misc128.wav; sourceTree = "<group>"; };
+		0210E6F31C95571200B44652 /* BTLECentralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTLECentralViewController.h; path = ../../PongToothMobile/PongToothMobile/PongToothMobile/BTLECentralViewController.h; sourceTree = "<group>"; };
+		0210E6F41C95571200B44652 /* BTLECentralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = BTLECentralViewController.m; path = ../../PongToothMobile/PongToothMobile/PongToothMobile/BTLECentralViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1A5043201C94EDFF00CF4D3C /* MultiPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPeer.swift; sourceTree = "<group>"; };
 		F3CEBFB11C954E6400D1B18C /* PongToothServer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PongToothServer-Bridging-Header.h"; sourceTree = "<group>"; };
 		F3CEBFB21C954E6400D1B18C /* BTLEPeripheralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTLEPeripheralViewController.h; sourceTree = "<group>"; };
-		F3CEBFB31C954E6400D1B18C /* BTLEPeripheralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTLEPeripheralViewController.m; sourceTree = "<group>"; };
+		F3CEBFB31C954E6400D1B18C /* BTLEPeripheralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BTLEPeripheralViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,8 @@
 			children = (
 				F3CEBFB21C954E6400D1B18C /* BTLEPeripheralViewController.h */,
 				F3CEBFB31C954E6400D1B18C /* BTLEPeripheralViewController.m */,
+				0210E6F31C95571200B44652 /* BTLECentralViewController.h */,
+				0210E6F41C95571200B44652 /* BTLECentralViewController.m */,
 				F3CEBFB11C954E6400D1B18C /* PongToothServer-Bridging-Header.h */,
 			);
 			name = Bluetooth;
@@ -177,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0210E6BB1C946BD900B44652 /* EdgeNode.swift in Sources */,
+				0210E6F51C95571200B44652 /* BTLECentralViewController.m in Sources */,
 				F3CEBFB41C954E6400D1B18C /* BTLEPeripheralViewController.m in Sources */,
 				0210E6B91C9452AC00B44652 /* BallNode.swift in Sources */,
 				0210E6BD1C94A6DD00B44652 /* PaddleNode.swift in Sources */,

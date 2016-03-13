@@ -2,6 +2,7 @@
 
 #import "BTLEPeripheralViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "PongToothServer-Bridging-Header.h"
 
 
 @interface BTLEPeripheralViewController () <CBPeripheralManagerDelegate>
@@ -13,8 +14,6 @@
 
 
 
-NSString *SERVICE_UUID = @"E20A39F4-73F5-4BC4-A12F-17D1AD07A961";
-NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
 
 #define NOTIFY_MTU      20
 
@@ -43,7 +42,7 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
 
 - (void)start {
     NSLog(@"Start advertising");
-    [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:SERVICE_UUID]] }];
+    [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]] }];
 }
 
 /** Required protocol method.  A full app should take care of all the possible states,
@@ -62,13 +61,13 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
     // ... so build our service.
     
     // Start with the CBMutableCharacteristic
-    self.transferCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:SERVICE_UUID]
+    self.transferCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]
                                                                       properties:CBCharacteristicPropertyNotify
                                                                            value:nil
                                                                      permissions:CBAttributePermissionsReadable];
 
     // Then the service
-    CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:SERVICE_UUID]
+    CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]
                                                                         primary:YES];
     
     // Add the characteristic to the service

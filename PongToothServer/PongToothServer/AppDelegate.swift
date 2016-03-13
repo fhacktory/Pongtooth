@@ -16,8 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var skView: SKView!
     
-    let adv: MultiPeer = MultiPeer()
-        
     func applicationDidFinishLaunching(aNotification: NSNotification)
     {
         window.acceptsMouseMovedEvents = true
@@ -39,12 +37,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate
         
         self.skView!.showsFPS = true
         self.skView!.showsNodeCount = true
-        
-        // It's not a singleton for the moment
-//        let BTManager : PongToothServerAPI = PongToothServerAPI.sharedInstance
-//        print(BTManager)
-        
-//        adv.start()
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool

@@ -1,6 +1,7 @@
 
 #import "BTLECentralViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "PongToothServer-Bridging-Header.h"
 
 @interface BTLECentralViewController () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
@@ -9,9 +10,6 @@
 @property (strong, nonatomic) NSMutableData         *data;
 
 @end
-
-NSString *SERVICE_UUID = @"E20A39F4-73F5-4BC4-A12F-17D1AD07A961";
-NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
 
 @implementation BTLECentralViewController
 
@@ -64,14 +62,14 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
  */
 - (void)scan
 {
-    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]
+    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]
                                                 options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
     
     NSLog(@"Scanning started");
 }
 
 
-/** This callback comes whenever a peripheral that is advertising the TRANSFER_SERVICE_UUID is discovered.
+/** This callback comes whenever a peripheral that is advertising the TRANSFER_@"08590F7E-DB05-467E-8757-72F6FAEB13D4" is discovered.
  *  We check the RSSI, to make sure it's close enough that we're interested in it, and if it is, 
  *  we start the connection process
  */
@@ -119,7 +117,7 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
     peripheral.delegate = self;
     
     // Search only for services that match our UUID
-    [peripheral discoverServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]];
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]];
 }
 
 
@@ -137,7 +135,7 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
     
     // Loop through the newly filled peripheral.services array, just in case there's more than one.
     for (CBService *service in peripheral.services) {
-        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:CHARACTERISTIC_UUID]] forService:service];
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]] forService:service];
     }
 }
 
@@ -158,7 +156,7 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
     for (CBCharacteristic *characteristic in service.characteristics) {
         
         // And check if it's the right one
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_UUID]]) {
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]) {
      
             // If it is, subscribe to it
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
@@ -211,7 +209,7 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
     }
     
     // Exit if it's not the transfer characteristic
-    if (![characteristic.UUID isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_UUID]]) {
+    if (![characteristic.UUID isEqual:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]) {
         return;
     }
     
@@ -257,7 +255,7 @@ NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
         for (CBService *service in self.discoveredPeripheral.services) {
             if (service.characteristics != nil) {
                 for (CBCharacteristic *characteristic in service.characteristics) {
-                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_UUID]]) {
+                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]) {
                         if (characteristic.isNotifying) {
                             // It is notifying, so unsubscribe
                             [self.discoveredPeripheral setNotifyValue:NO forCharacteristic:characteristic];
