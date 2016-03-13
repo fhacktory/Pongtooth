@@ -10,8 +10,11 @@
 @property (strong, nonatomic) CBMutableCharacteristic   *transferCharacteristic;
 @property (strong, nonatomic) NSData                    *dataToSend;
 @property (nonatomic, readwrite) NSInteger              sendDataIndex;
+@property (nonatomic, readwrite) NSInteger              serviceUUIDIndex;
 @end
 
+
+static NSArray<NSString *> *SERVICES;
 
 
 
@@ -32,7 +35,9 @@
     self = [super init];
 
     if(self) {
-        // Start up the CBPeripheralManager
+        SERVICES = @[@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961", @"E20A39F4-73F5-4BC4-A12F-17D1AD07A962",
+                     @"E20A39F4-73F5-4BC4-A12F-17D1AD07A963", @"E20A39F4-73F5-4BC4-A12F-17D1AD07A964"];
+        _serviceUUIDIndex = 0;
         _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
     }
     return self;
@@ -41,7 +46,7 @@
 #pragma mark - Peripheral Methods
 
 - (void)start {
-    [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]] }];
+    [self.peripheralManager startAdvertising:@{ CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:SERVICES[self.serviceUUIDIndex]]]}];
 }
 
 /** Required protocol method.  A full app should take care of all the possible states,
@@ -63,8 +68,7 @@
                                                                      permissions:CBAttributePermissionsReadable];
 
     // Then the service
-    CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]
-                                                                        primary:YES];
+    CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:SERVICES[self.serviceUUIDIndex]] primary:YES];
     
     // Add the characteristic to the service
     transferService.characteristics = @[self.transferCharacteristic];
@@ -94,6 +98,8 @@
 {
     NSLog(@"Central unsubscribed from characteristic");
     
+    self.serviceUUIDIndex++;
+    [self start];
 }
 
 
