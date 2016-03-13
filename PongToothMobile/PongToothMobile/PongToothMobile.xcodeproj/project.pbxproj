@@ -85,6 +85,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F37EAAF01C94D6A400323D3B /* MultiPeer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MultiPeer;
+			sourceTree = "<group>";
+		};
 		F3C0A9221C94504400A08C01 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +116,7 @@
 		F3C0A92D1C94504400A08C01 /* PongToothMobile */ = {
 			isa = PBXGroup;
 			children = (
+				F37EAAF01C94D6A400323D3B /* MultiPeer */,
 				F3C0A9621C9468A000A08C01 /* Bluetooth */,
 				F3C0A92E1C94504400A08C01 /* AppDelegate.swift */,
 				F3C0A9301C94504400A08C01 /* GameScene.sks */,

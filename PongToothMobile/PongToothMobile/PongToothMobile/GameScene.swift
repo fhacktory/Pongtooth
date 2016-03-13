@@ -29,11 +29,11 @@ class GameScene: SKScene {
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
             data, error in
             
-            let currentX = self.ball.position.x
+            let currentX = self.padel.position.x
             let destX : CGFloat = currentX - CGFloat(data!.acceleration.y * 100)
             
             if (destX - self.PADEL_WIDTH / 2) >= 0 && (destX + self.PADEL_WIDTH / 2) <= self.size.width {
-                self.ball.position.x = destX
+                self.padel.position.x = destX
             }
         })
         

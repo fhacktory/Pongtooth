@@ -16,8 +16,8 @@
 		0210E6BD1C94A6DD00B44652 /* PaddleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6BC1C94A6DD00B44652 /* PaddleNode.swift */; };
 		0210E6BF1C94B99900B44652 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6BE1C94B99900B44652 /* beep.wav */; };
 		0210E6C41C94BD1600B44652 /* bop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0210E6C31C94BD1600B44652 /* bop.wav */; };
+		0210E6C61C94DEE400B44652 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0210E6C51C94DEE400B44652 /* User.swift */; };
 		1A50431B1C94D91D00CF4D3C /* MultiPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50431A1C94D91D00CF4D3C /* MultiPeer.swift */; };
-		1A50431D1C94DFE200CF4D3C /* PTMultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50431C1C94DFE200CF4D3C /* PTMultipeerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +32,8 @@
 		0210E6BC1C94A6DD00B44652 /* PaddleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddleNode.swift; sourceTree = "<group>"; };
 		0210E6BE1C94B99900B44652 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		0210E6C31C94BD1600B44652 /* bop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bop.wav; sourceTree = "<group>"; };
+		0210E6C51C94DEE400B44652 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1A50431A1C94D91D00CF4D3C /* MultiPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiPeer.swift; path = ../../../../../Downloads/Around/Around/MultiPeer.swift; sourceTree = "<group>"; };
-		1A50431C1C94DFE200CF4D3C /* PTMultipeerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PTMultipeerManager.swift; path = ../../../../../Downloads/PTMultipeerManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +73,7 @@
 				0210E6BC1C94A6DD00B44652 /* PaddleNode.swift */,
 				0210E6B81C9452AC00B44652 /* BallNode.swift */,
 				0210E6BA1C946BD900B44652 /* EdgeNode.swift */,
+				0210E6C51C94DEE400B44652 /* User.swift */,
 				0210E6AD1C94473400B44652 /* Assets.xcassets */,
 				0210E6BE1C94B99900B44652 /* beep.wav */,
 				0210E6C31C94BD1600B44652 /* bop.wav */,
@@ -161,6 +162,7 @@
 				0210E6AA1C94473400B44652 /* GameScene.swift in Sources */,
 				0210E6A81C94473400B44652 /* AppDelegate.swift in Sources */,
 				1A50431B1C94D91D00CF4D3C /* MultiPeer.swift in Sources */,
+				0210E6C61C94DEE400B44652 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,7 +216,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -252,7 +254,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

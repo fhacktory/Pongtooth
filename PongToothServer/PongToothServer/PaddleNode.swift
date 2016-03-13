@@ -11,8 +11,6 @@ import SpriteKit
 
 class PaddleNode: SKSpriteNode
 {
-    weak var node: EdgeNode?
-    
     override init(texture: SKTexture?, color: NSColor, size: CGSize)
     {
         super.init(texture: texture, color: color, size: size)

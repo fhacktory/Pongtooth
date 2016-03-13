@@ -16,6 +16,6 @@ class PTBluetoothManager  {
     
     init () {
         self.handler = PTBluetoothHandler()
-        self.centralManager = CBCentralManager.init(delegate:self.handler, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+        self.centralManager = CBCentralManager(delegate:self.handler, queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
     }
 }
