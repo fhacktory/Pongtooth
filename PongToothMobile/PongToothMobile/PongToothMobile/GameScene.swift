@@ -7,8 +7,8 @@
 //
 
 import SpriteKit
-import CoreBluetooth
 import CoreMotion
+import MultipeerConnectivity
 
 class GameScene: SKScene {
     
@@ -18,12 +18,22 @@ class GameScene: SKScene {
     
     var motionManager: CMMotionManager!
     
+    var appDelegate : AppDelegate!
+    var peerName : String!
+    
     // UI
     var padel : SKSpriteNode!
     var statusLabel : UILabel!
     var ball = SKSpriteNode(imageNamed:"DuskBall")
     
     override func didMoveToView(view: SKView) {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: NSSelectorFromString("peerDidChangeStateWithNotification:"), name:"MCDidChangeStateNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:
+            NSSelectorFromString("didReceiveDataWithNotification:"), name:"MCDidReceiveDataNotification", object: nil)
+        
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate;
+        appDelegate.peerManager!.start()
         
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler:{
@@ -59,10 +69,40 @@ class GameScene: SKScene {
         
         for touch in touches {
             ball.position = touch.locationInNode(self)
+            
+            let dataToSend : NSData = "oyoyo".dataUsingEncoding(NSUTF8StringEncoding)!
+            let allPeers = appDelegate.peerManager!.session.connectedPeers
+            
+            do {
+                try appDelegate.peerManager!.session.sendData(dataToSend, toPeers: allPeers, withMode: MCSessionSendDataMode.Reliable)
+            } catch {}
         }
     }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    
+    func peerDidChangeStateWithNotification(notification: NSNotification) {
+        let peerID = notification.userInfo!["peerID"] as! MCPeerID
+        let peerDisplayName = peerID.displayName
+        let stateRawValue = notification.userInfo!["state"]
+        let state : MCSessionState = MCSessionState(rawValue: stateRawValue!.integerValue)!
+        
+        if state != MCSessionState.Connecting {
+            if (state == MCSessionState.Connected) {
+                peerName = peerDisplayName
+            }
+            else if (state == MCSessionState.NotConnected){
+                peerName = nil;
+            }
+        }
+    }
+    
+    func didReceiveDataWithNotification(notification: NSNotification) {
+        let receivedData : NSData = notification.userInfo!["data"] as! NSData
+        let receivedText : NSString = NSString(data: receivedData, encoding: NSUTF8StringEncoding)!
+    
+        print(receivedText)
     }
 }

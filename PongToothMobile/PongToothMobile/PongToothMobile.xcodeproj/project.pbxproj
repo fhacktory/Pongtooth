@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F37EAAF21C94D93000323D3B /* PTMultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37EAAF11C94D93000323D3B /* PTMultipeerManager.swift */; };
+		F37EAAF41C94F1BB00323D3B /* MultiPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37EAAF31C94F1BB00323D3B /* MultiPeer.swift */; };
 		F3C0A92F1C94504400A08C01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0A92E1C94504400A08C01 /* AppDelegate.swift */; };
 		F3C0A9311C94504400A08C01 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F3C0A9301C94504400A08C01 /* GameScene.sks */; };
 		F3C0A9331C94504400A08C01 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0A9321C94504400A08C01 /* GameScene.swift */; };
@@ -39,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F37EAAF11C94D93000323D3B /* PTMultipeerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PTMultipeerManager.swift; sourceTree = "<group>"; };
+		F37EAAF31C94F1BB00323D3B /* MultiPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPeer.swift; sourceTree = "<group>"; };
 		F3C0A92B1C94504400A08C01 /* PongToothMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PongToothMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C0A92E1C94504400A08C01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3C0A9301C94504400A08C01 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -88,6 +92,8 @@
 		F37EAAF01C94D6A400323D3B /* MultiPeer */ = {
 			isa = PBXGroup;
 			children = (
+				F37EAAF11C94D93000323D3B /* PTMultipeerManager.swift */,
+				F37EAAF31C94F1BB00323D3B /* MultiPeer.swift */,
 			);
 			name = MultiPeer;
 			sourceTree = "<group>";
@@ -294,7 +300,9 @@
 				F3C0A9641C9468D000A08C01 /* PTBluetoothManager.swift in Sources */,
 				F3C0A9331C94504400A08C01 /* GameScene.swift in Sources */,
 				F3C0A9351C94504400A08C01 /* GameViewController.swift in Sources */,
+				F37EAAF41C94F1BB00323D3B /* MultiPeer.swift in Sources */,
 				F3C0A92F1C94504400A08C01 /* AppDelegate.swift in Sources */,
+				F37EAAF21C94D93000323D3B /* PTMultipeerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,12 +11,8 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
-    var manager : PTBluetoothManager!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        manager = PTBluetoothManager()
 
         if let scene = GameScene(fileNamed:"GameScene") {
             // Configure the view.
