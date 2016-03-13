@@ -10,7 +10,8 @@
 
 @end
 
-
+NSString *SERVICE_UUID = @"E20A39F4-73F5-4BC4-A12F-17D1AD07A961";
+NSString *CHARACTERISTIC_UUID = @"08590F7E-DB05-467E-8757-72F6FAEB13D4";
 
 @implementation BTLECentralViewController
 
@@ -63,7 +64,7 @@
  */
 - (void)scan
 {
-    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]]
+    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]
                                                 options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
     
     NSLog(@"Scanning started");
@@ -76,15 +77,6 @@
  */
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    // Reject any where the value is above reasonable range
-    if (RSSI.integerValue > -15) {
-        return;
-    }
-        
-    // Reject if the signal strength is too low to be close enough (Close is around -22dB)
-    if (RSSI.integerValue < -35) {
-        return;
-    }
     
     NSLog(@"Discovered %@ at %@", peripheral.name, RSSI);
     
@@ -127,7 +119,7 @@
     peripheral.delegate = self;
     
     // Search only for services that match our UUID
-    [peripheral discoverServices:@[[CBUUID UUIDWithString:@"E20A39F4-73F5-4BC4-A12F-17D1AD07A961"]]];
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]];
 }
 
 
@@ -145,7 +137,7 @@
     
     // Loop through the newly filled peripheral.services array, just in case there's more than one.
     for (CBService *service in peripheral.services) {
-        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]] forService:service];
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:CHARACTERISTIC_UUID]] forService:service];
     }
 }
 
@@ -166,7 +158,7 @@
     for (CBCharacteristic *characteristic in service.characteristics) {
         
         // And check if it's the right one
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]) {
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_UUID]]) {
      
             // If it is, subscribe to it
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
@@ -219,7 +211,7 @@
     }
     
     // Exit if it's not the transfer characteristic
-    if (![characteristic.UUID isEqual:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]) {
+    if (![characteristic.UUID isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_UUID]]) {
         return;
     }
     
@@ -265,7 +257,7 @@
         for (CBService *service in self.discoveredPeripheral.services) {
             if (service.characteristics != nil) {
                 for (CBCharacteristic *characteristic in service.characteristics) {
-                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"08590F7E-DB05-467E-8757-72F6FAEB13D4"]]) {
+                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:CHARACTERISTIC_UUID]]) {
                         if (characteristic.isNotifying) {
                             // It is notifying, so unsubscribe
                             [self.discoveredPeripheral setNotifyValue:NO forCharacteristic:characteristic];

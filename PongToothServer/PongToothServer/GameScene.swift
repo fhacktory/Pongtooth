@@ -19,7 +19,7 @@ enum NodeCategory: UInt32
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    let btm: Peripheral = Peripheral()
+    let btm: BTLEPeripheralViewController = BTLEPeripheralViewController()
 
     var spriteBalls: [BallNode] = []
     
