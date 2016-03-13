@@ -58,7 +58,6 @@
 
     // ... so start scanning
     [self scan];
-    
 }
 
 

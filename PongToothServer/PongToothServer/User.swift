@@ -22,6 +22,16 @@ class User : NSObject
     
     private(set) var identifier:String
     
+    var score:Int = 100 {
+        didSet
+        {
+            if score >= 0 || score <= 200
+            {
+                self.paddleNode?.setValue(score)
+            }
+        }
+    }
+    
     weak var edgeNode: EdgeNode?
     
     weak var paddleNode: PaddleNode?

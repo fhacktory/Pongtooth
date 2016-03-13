@@ -110,6 +110,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let outVector = CGVectorMake(inVector.dx*0.5, inVector.dy*0.5)
             contact.bodyB.node!.physicsBody?.applyImpulse(outVector)
             
+            for user in users
+            {
+                if user.edgeNode == contact.bodyA.node
+                {
+                    --user.score
+                    break
+                }
+            }
+            
             self.runAction(self.soundEffectMiss)
         }
         else if (ballTouched && paddleTouched)
@@ -118,7 +127,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let outVector = CGVectorMake(inVector.dx*2, inVector.dy*2)
             contact.bodyB.node!.physicsBody?.applyImpulse(outVector)
             contact.bodyB.node!.physicsBody?.applyForce(outVector)
-     
+            
+            for user in users
+            {
+                if user.paddleNode == contact.bodyA.node
+                {
+                    ++user.score
+                    break
+                }
+            }
+
             self.runAction(self.soundEffectAction)
         }
         else if (ballTouched && otherBallTouched)

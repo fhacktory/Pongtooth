@@ -11,6 +11,8 @@ import SpriteKit
 
 class PaddleNode: SKSpriteNode
 {
+    var myLabel: SKLabelNode! = nil
+    
     override init(texture: SKTexture?, color: NSColor, size: CGSize)
     {
         super.init(texture: texture, color: color, size: size)
@@ -44,5 +46,20 @@ class PaddleNode: SKSpriteNode
         self.physicsBody?.dynamic = false
         self.physicsBody?.friction = 0.0
         self.physicsBody?.mass = 0.0
+        
+        
+        myLabel = SKLabelNode(fontNamed:"Arial")
+        myLabel.text = "100"
+        myLabel.fontSize = 26
+        myLabel.fontColor = NSColor.redColor()
+        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        
+        self.addChild(myLabel)
+
+    }
+    
+    func setValue(val: Int)
+    {
+        myLabel.text = String(val)
     }
 }
